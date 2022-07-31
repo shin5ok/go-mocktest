@@ -32,7 +32,7 @@ func (u UserInfo) SetInfo() error {
 	})
 	if err != nil {
 		// Handle any errors in an appropriate way, such as returning them.
-		return fmt.Errorf("An error has occurred: %w", err)
+		return fmt.Errorf("an error has occurred: %w", err)
 	}
 	return nil
 }
