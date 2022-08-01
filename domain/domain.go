@@ -11,19 +11,24 @@ import (
 )
 
 type UserInterface interface {
-	SetInfo() error
+	SetInfo(UserInfo) error
 	GetInfo(string) []UserInfo
 }
 
 type UserInfo struct {
 	Name string
-	Age  int16
+	Age  int
+}
+
+type APIClient struct {
+	Client UserInterface
 }
 
 var projectId = os.Getenv("PROJECT_ID")
 
-func (u UserInfo) SetInfo() error {
+func (v *APIClient) SetInfo(u UserInfo) error {
 	ctx := context.Background()
+	//err := Client(ctx, u)
 	client, _ := firestore.NewClient(ctx, projectId)
 	id := uuid.NewUUID()
 	_, err := client.Collection("user").Doc(string(id)).Set(ctx, map[string]interface{}{
@@ -37,7 +42,17 @@ func (u UserInfo) SetInfo() error {
 	return nil
 }
 
-func (u UserInfo) GetInfo(name string) []UserInfo {
+func Client(ctx context.Context, u UserInfo) error {
+	client, _ := firestore.NewClient(ctx, projectId)
+	id := uuid.NewUUID()
+	_, err := client.Collection("user").Doc(string(id)).Set(ctx, map[string]interface{}{
+		"name": u.Name,
+		"age":  u.Age,
+	})
+	return err
+}
+
+func (v *APIClient) GetInfo(name string) []UserInfo {
 	ctx := context.Background()
 	client, _ := firestore.NewClient(ctx, projectId)
 	itr := client.Collection("user").Where("name", "==", name).Documents(ctx)
@@ -53,11 +68,11 @@ func (u UserInfo) GetInfo(name string) []UserInfo {
 		data := doc.Data()
 		// docData = append(docData, UserInfo{Name: data["name"].(string), Age: data["age"]})
 		fmt.Printf("%#v\n", data)
-		ageInt := int16(data["age"].(int64))
+		ageInt := data["age"].(int64)
 		docData = append(docData,
 			UserInfo{
 				Name: data["name"].(string),
-				Age:  ageInt,
+				Age:  int(ageInt),
 			})
 	}
 
