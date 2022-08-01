@@ -24,6 +24,10 @@ type APIClient struct {
 	Client UserInterface
 }
 
+type Usecase struct {
+	APIClient
+}
+
 var projectId = os.Getenv("PROJECT_ID")
 
 func (v *APIClient) SetInfo(u UserInfo) error {
