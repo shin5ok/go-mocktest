@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"foobar/domain"
 	"strconv"
 
@@ -25,5 +24,5 @@ func main() {
 		log.Printf("%v", err)
 	}
 	userInfoSlice := useCase.Client.GetInfo(name)
-	fmt.Printf("%+v\n", userInfoSlice)
+	log.Printf("%+v\n", userInfoSlice)
 }

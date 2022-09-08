@@ -46,16 +46,6 @@ func (v *APIClient) SetInfo(u UserInfo) error {
 	return nil
 }
 
-func Client(ctx context.Context, u UserInfo) error {
-	client, _ := firestore.NewClient(ctx, projectId)
-	id := uuid.NewUUID()
-	_, err := client.Collection("user").Doc(string(id)).Set(ctx, map[string]interface{}{
-		"name": u.Name,
-		"age":  u.Age,
-	})
-	return err
-}
-
 func (v *APIClient) GetInfo(name string) []UserInfo {
 	ctx := context.Background()
 	client, _ := firestore.NewClient(ctx, projectId)
@@ -70,8 +60,7 @@ func (v *APIClient) GetInfo(name string) []UserInfo {
 			return []UserInfo{}
 		}
 		data := doc.Data()
-		// docData = append(docData, UserInfo{Name: data["name"].(string), Age: data["age"]})
-		fmt.Printf("%#v\n", data)
+		// fmt.Printf("%#v\n", data)
 		ageInt := data["age"].(int64)
 		docData = append(docData,
 			UserInfo{
