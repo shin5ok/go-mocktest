@@ -8,14 +8,14 @@ import (
 	"log"
 )
 
-func main() {
+func run(apiClient *domain.APIClient) {
 	flag.Parse()
 	name := flag.Arg(0)
 	age := flag.Arg(1)
 	ageInt, _ := strconv.Atoi(age)
 
 	useCase := &domain.Usecase{}
-	useCase.Client = &domain.APIClient{}
+	useCase.Client = apiClient
 	userInfo := domain.UserInfo{
 		Name: name,
 		Age:  ageInt,
@@ -25,4 +25,8 @@ func main() {
 	}
 	userInfoSlice := useCase.Client.GetInfo(name)
 	log.Printf("%+v\n", userInfoSlice)
+}
+
+func main() {
+	run(&domain.APIClient{})
 }
