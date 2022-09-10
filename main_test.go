@@ -4,6 +4,8 @@ import (
 	"foobar/domain"
 	"log"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var name = "foo"
@@ -30,7 +32,5 @@ func TestRun(t *testing.T) {
 	}
 	userInfoSlice := useCase.Client.GetInfo(name)
 	log.Printf("%+v", userInfoSlice)
-	if userInfoSlice[0].Name != name {
-		t.Errorf(`not match "name" != %s`, name)
-	}
+	assert.Equal(t, userInfoSlice[0].Name, name)
 }
