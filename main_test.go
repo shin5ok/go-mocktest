@@ -10,8 +10,7 @@ import (
 
 var name = "foo"
 
-type mockAPIClient struct {
-}
+type mockAPIClient struct{}
 
 func (v *mockAPIClient) SetInfo(u domain.UserInfo) error {
 	_ = u
