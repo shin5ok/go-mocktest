@@ -26,9 +26,9 @@ func TestRun(t *testing.T) {
 	useCase := &domain.Usecase{}
 	useCase.Client = &mockAPIClient{}
 
-	if err := useCase.Client.SetInfo(domain.UserInfo{Name: "name", Age: 10}); err != nil {
-		t.Error(err)
-	}
+	err := useCase.Client.SetInfo(domain.UserInfo{Name: "name", Age: 10})
+	assert.Equal(t, err, nil)
+
 	userInfoSlice := useCase.Client.GetInfo(name)
 	log.Printf("%+v", userInfoSlice)
 	assert.Equal(t, userInfoSlice[0].Name, name)
