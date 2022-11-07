@@ -8,14 +8,30 @@ import (
 	"log"
 )
 
-func run(apiClient *domain.APIClient) {
+type APIClienter interface {
+	Get() *domain.APIClient
+}
+
+type Config struct {
+	api *domain.APIClient
+}
+
+func (c Config) Get() *domain.APIClient {
+	return c.api
+}
+
+type RunConfig struct {
+	api APIClienter
+}
+
+func (v RunConfig) run() {
 	flag.Parse()
 	name := flag.Arg(0)
 	age := flag.Arg(1)
 	ageInt, _ := strconv.Atoi(age)
 
 	useCase := &domain.Usecase{}
-	useCase.Client = apiClient
+	useCase.Client = v.api.Get()
 	userInfo := domain.UserInfo{
 		Name: name,
 		Age:  ageInt,
@@ -28,5 +44,8 @@ func run(apiClient *domain.APIClient) {
 }
 
 func main() {
-	run(&domain.APIClient{})
+	config := Config{&domain.APIClient{}}
+	r := RunConfig{api: config}
+
+	r.run()
 }
