@@ -2,7 +2,6 @@ package main
 
 import (
 	"foobar/domain"
-	"log"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -27,9 +26,9 @@ func TestRun(t *testing.T) {
 	useCase.Client = &mockAPIClient{}
 
 	err := useCase.Client.SetInfo(domain.UserInfo{Name: "name", Age: 10})
-	assert.Equal(t, err, nil)
+	assert.Nil(t, err)
 
 	userInfoSlice := useCase.Client.GetInfo(name)
-	log.Printf("%+v", userInfoSlice)
+	// log.Printf("%+v", userInfoSlice)
 	assert.Equal(t, userInfoSlice[0].Name, name)
 }
