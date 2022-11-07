@@ -29,6 +29,5 @@ func TestRun(t *testing.T) {
 	assert.Nil(t, err)
 
 	userInfoSlice := useCase.Client.GetInfo(name)
-	// log.Printf("%+v", userInfoSlice)
 	assert.Equal(t, userInfoSlice[0].Name, name)
 }
